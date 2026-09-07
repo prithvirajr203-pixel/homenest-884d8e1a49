@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HomeNest – Premium Real Estate</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+:root {
+    --color-primary: #0a2740;      /* deep navy */
+    --color-primary-light: #1e3a5f;
+    --color-accent: #d4af37;       /* gold */
+    --color-neutral-light: #f5f5f5;
+    --color-neutral-dark: #e0e0e0;
+    --font-primary: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    --transition-speed: 0.3s;
+}
+* { box-sizing: border-box; margin:0; padding:0; }
+body {
+    font-family: var(--font-primary);
+    line-height: 1.6;
+    color: #333;
+}
+a { text-decoration: none; color: inherit; }
+header {
+    background: var(--color-primary);
+    color: #fff;
+    position: sticky;
+    top:0;
+    z-index: 1000;
+}
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+header nav a {
+    margin-left: 1.5rem;
+    color: #fff;
+    font-weight: 500;
+    transition: color var(--transition-speed);
+}
+header nav a:hover { color: var(--color-accent); }
+
+section { padding: 4rem 2rem; }
+section:nth-of-type(even) { background: var(--color-neutral-light); }
+
+h1, h2, h3 { margin-bottom: 1rem; font-weight: 600; }
+p { margin-bottom: 1rem; }
+
+button, .btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: var(--color-accent);
+    color: #000;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background var(--transition-speed), transform var(--transition-speed);
+}
+button:hover, .btn:hover {
+    background: #c99a2e;
+    transform: translateY(-2px);
+}
+
+/* Hero */
+#hero {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+    color: #fff;
+    text-align: center;
+    padding: 8rem 2rem;
+    position: relative;
+}
+#hero .overlay-search {
+    margin-top: 2rem;
+}
+
+/* Search Bar */
+#search {
+    background: var(--color-accent);
+    color: #000;
+}
+#search .search-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+#search select,
+#search input[type="range"] {
+    padding: 0.5rem;
+    border: 1px solid #999;
+    border-radius: 4px;
+    flex: 1 1 150px;
+}
+#search .filter-btn {
+    background: #000;
+    color: #fff;
+}
+
+/* Cards */
+.card {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    display: flex;
+    flex-direction: column;
+}
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.card .image-placeholder {
+    background: var(--color-neutral-dark);
+    height: 180px;
+}
+.card .card-body {
+    padding: 1rem;
+    flex-grow: 1;
+}
+.card .card-body h3 { margin: 0.5rem 0; font-size: 1.1rem; }
+.card .card-body .price { color: var(--color-accent); font-weight: 600; }
+.card .card-body .location { font-size: 0.9rem; color: #555; }
+.card .card-body .cta {
+    margin-top: auto;
+    text-align: right;
+}
+
+/* Grid layouts */
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 2rem; }
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1.5rem; }
+
+/* Property Details */
+#property_details .gallery, #property_details .details {
+    padding: 1rem;
+}
+#property_details .gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+#property_details .gallery .large {
+    background: var(--color-neutral-dark);
+    height: 300px;
+}
+#property_details .gallery .thumbs {
+    display: flex;
+    gap: 0.5rem;
+}
+#property_details .gallery .thumbs div {
+    background: var(--color-neutral-dark);
+    flex: 1;
+    height: 80px;
+}
+#property_details .details ul {
+    list-style: none;
+    padding:0;
+}
+#property_details .details li { margin-bottom: 0.5rem; }
+
+/* Map */
+#locations_map iframe {
+    width: 100%;
+    height: 400px;
+    border:0;
+}
+
+/* Agents */
+.agent-card .image-placeholder {
+    height: 180px;
+}
+
+/* About */
+#about .text, #about .team {
+    flex:1;
+    padding:1rem;
+}
+#about .team {
+    display: flex;
+    flex-wrap: wrap;
+    gap:1rem;
+}
+#about .team .member {
+    background:#fff;
+    border-radius:8px;
+    padding:1rem;
+    flex:1 1 150px;
+    text-align:center;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Contact */
+#contact_form .form-container {
+    max-width:800px;
+    margin:0 auto;
+    display:flex;
+    flex-wrap:wrap;
+    gap:1rem;
+}
+#contact_form .form-container input,
+#contact_form .form-container textarea {
+    width:100%;
+    padding:0.75rem;
+    border:1px solid #ccc;
+    border-radius:4px;
+}
+#contact_form .contact-info {
+    margin-top:2rem;
+    text-align:center;
+}
+
+/* Testimonials Carousel */
+#testimonials .carousel {
+    overflow:hidden;
+    position:relative;
+}
+#testimonials .carousel-track {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+#testimonials .testimonial-card {
+    min-width: 100%;
+    padding:2rem;
+    background:#fff;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    border-radius:8px;
+    text-align:center;
+}
+#testimonials .stars {
+    color: #f5c518;
+    margin:0.5rem 0;
+}
+
+/* Footer */
+footer {
+    background: var(--color-primary);
+    color:#fff;
+    padding:2rem;
+    text-align:center;
+}
+footer a { color:#fff; }
+@media (max-width:768px){
+    header .container { flex-direction:column; }
+    #search .search-container { flex-direction:column; }
+    #property_details { display:block; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="logo"><strong>HomeNest</strong></div>
+        <nav>
+            <a href="#hero">Home</a>
+            <a href="#property_listings">Properties</a>
+            <a href="#locations_map">Locations</a>
+            <a href="#agents_showcase">Agents</a>
+            <a href="#about">About</a>
+            <a href="#contact_form">Contact</a>
+        </nav>
+    </div>
+</header>
+
+<section id="hero">
+    <h1>Find Your Dream Home with HomeNest</h1>
+    <p>Explore premium listings, compare prices, and connect with trusted agents—all in one place.</p>
+    <button class="btn">Start Your Search</button>
+    <div class="overlay-search">
+        <!-- Simple search bar inside hero -->
+        <form id="hero-search" style="margin-top:2rem;">
+            <input type="text" placeholder="City, neighborhood, address..." style="padding:0.75rem;width:70%;max-width:400px;border-radius:4px;border:none;">
+            <button type="submit" class="btn">Search</button>
+        </form>
+    </div>
+</section>
+
+<section id="search">
+    <h2>Search by Location, Price, and More</h2>
+    <p>Use our intuitive filters to narrow down the perfect property for you.</p>
+    <div class="search-container">
+        <select aria-label="Location">
+            <option>All Locations</option>
+            <option>City Center</option>
+            <option>Suburbs</option>
+        </select>
+        <input type="range" min="0" max="1000000" step="50000" aria-label="Price range">
+        <select aria-label="Property Type">
+            <option>All Types</option>
+            <option>House</option>
+            <option>Apartment</option>
+            <option>Condo</option>
+        </select>
+        <select aria-label="Bedrooms">
+            <option>Any Bedrooms</option>
+            <option>1+</option>
+            <option>2+</option>
+            <option>3+</option>
+        </select>
+        <button class="filter-btn">Search Now</button>
+    </div>
+</section>
+
+<section id="featured_properties">
+    <h2>Featured Homes</h2>
+    <p>Handpicked listings that match your style and budget.</p>
+    <div class="grid-3">
+        <div class="card">
+            <div class="image-placeholder"></div>
+            <div class="card-body">
+                <h3>Luxury Villa</h3>
+                <div class="price">$1,200,000</div>
+                <div class="location">Beverly Hills, CA</div>
+                <div class="cta"><a href="#" class="btn">View Details</a></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="image-placeholder"></div>
+            <div class="card-body">
+                <h3>Modern Apartment</h3>
+                <div class="price">$850,000</div>
+                <div class="location">Manhattan, NY</div>
+                <div class="cta"><a href="#" class="btn">View Details</a></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="image-placeholder"></div>
+            <div class="card-body">
+                <h3>Cozy Cottage</h3>
+                <div class="price">$420,000</div>
+                <div class="location">Portland, OR</div>
+                <div class="cta"><a href="#" class="btn">View Details</a></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="property_listings">
+    <h2>Explore Listings</h2>
+    <p>Browse thousands of homes with advanced sorting and pagination.</p>
+    <div class="sorting" style="margin-bottom:1rem;">
+        <select aria-label="Sort by">
+            <option>Sort by: Newest</option>
+            <option>Price: Low to High</option>
+            <option>Price: High to Low</option>
+        </select>
+    </div>
+    <div class="grid-4">
+        <!-- Repeat a few cards as examples -->
+        <div class="card">
+            <div class="image-placeholder"></div>
+            <div class="card-body">
+                <h3>Family House</h3>
+                <div class="price">$650,000</div>
+                <div class="location">Austin, TX</div>
+                <div class="cta"><a href="#" class="btn">Quick View</a></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="image-placeholder"></div>
+            <div class="card-body">
+                <h3>Downtown Loft</h3>
+                <div class="price">$780,000</div>
+                <div class="location">Seattle, WA</div>
+                <div class="cta"><a href="#" class="btn">Quick View</a></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="image-placeholder"></div>
+            <div class="card-body">
+                <h3>Beachfront Condo</h3>
+                <div class="price">$1,050,000</div>
+                <div class="location>Miami, FL</div>
+                <div class="cta"><a href="#" class="btn">Quick View</a></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="image-placeholder"></div>
+            <div class="card-body">
+                <h3>Suburban Ranch</h3>
+                <div class="price">$540,000</div>
+                <div class="location">Columbus, OH</div>
+                <div class="cta"><a href="#" class="btn">Quick View</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="pagination" style="margin-top:2rem; text-align:center;">
+        <button class="btn">Previous</button>
+        <button class="btn">Next</button>
+    </div>
+    <div style="text-align:center; margin-top:1rem;">
+        <button class="btn">Load More</button>
+    </div>
+</section>
+
+<section id="property_details">
+    <h2>Property Details</h2>
+    <p>See every detail—from floor plans to high‑resolution images—and reach out to the agent directly.</p>
+    <div class="gallery">
+        <div class="large"></div>
+        <div class="thumbs">
+            <div></div><div></div><div></div><div></div>
+        </div>
+    </div>
+    <div class="details">
+        <ul>
+            <li><strong>Price:</strong> $850,000</li>
+            <li><strong>Location:</strong> Downtown, Chicago, IL</li>
+            <li><strong>Bedrooms:</strong> 3</li>
+            <li><strong>Bathrooms:</strong> 2</li>
+            <li><strong>Square Feet:</strong> 1,850 sqft</li>
+        </ul>
+        <button class="btn">Contact Agent</button>
+    </div>
+</section>
+
+<section id="locations_map">
+    <h2>Discover Your Neighborhood</h2>
+    <p>Interactive map shows available homes and local amenities.</p>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.019123456789!2d-122.4194!3d37.7749!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085809c1234567%3A0xabcdef1234567890!2sSan%20Francisco%2C%20CA!5e0!3m2!1sen!2sus!4v1600000000000!5m2!1sen!2sus" allowfullscreen="" loading="lazy"></iframe>
+</section>
+
+<section id="agents_showcase">
+    <h2>Meet Our Agents</h2>
+    <p>Trusted professionals ready to guide you through every step of buying or renting.</p>
+    <div class="grid-3">
+        <div class="card agent-card">
+            <div class="image-placeholder"></div>
+            <div class="card-body">
+                <h3>Jane Doe</h3>
+                <div class="location">Senior Agent</div>
+                <p>Specialist in luxury properties.</p>
+                <div class="cta"><a href="#" class="btn">Contact</a></div>
+            </div>
+        </div>
+        <div class="card agent-card">
+            <div class="image-placeholder"></div>
+            <div class="card-body">
+                <h3>John Smith</h3>
+                <div class="location">Lead Agent</div>
+                <p>Expert in first‑time buyer market.</p>
+                <div class="cta"><a href="#" class="btn">Contact</a></div>
+            </div>
+        </div>
+        <div class="card agent-card">
+            <div class="image-placeholder"></div>
+            <div class="card-body">
+                <h3>Emily Chen</h3>
+                <div class="location">Property Consultant</div>
+                <p>Focus on downtown condos.</p>
+                <div class="cta"><a href="#" class="btn">Contact</a></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="about">
+    <h2>About HomeNest</h2>
+    <p>We combine cutting‑edge technology with local expertise to make home buying and renting seamless.</p>
+    <div style="display:flex; flex-wrap:wrap; gap:2rem;">
+        <div class="text">
+            <h3>Our Mission</h3>
+            <p>To empower people to find their perfect home with confidence and ease.</p>
+            <h3>Our Values</h3>
+            <ul>
+                <li>Integrity</li>
+                <li>Transparency</li>
+                <li>Innovation</li>
+                <li>Customer‑Centricity</li>
+            </ul>
+        </div>
+        <div class="team">
+            <div class="member">
+                <strong>Alice Brown</strong><br>CEO
+            </div>
+            <div class="member">
+                <strong>Mark Lee</strong><br>CTO
+            </div>
+            <div class="member">
+                <strong>Sophia Patel</strong><br>Head of Sales
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="contact_form">
+    <h2>Get in Touch</h2>
+    <p>Have questions or need assistance? Reach out and we’ll help you find the right home.</p>
+    <div class="form-container">
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Email Address" required>
+        <input type="tel" placeholder="Phone Number">
+        <textarea rows="5" placeholder="Your Message" required></textarea>
+        <button class="btn">Send Message</button>
+    </div>
+    <div class="contact-info">
+        <p><strong>Phone:</strong> (555) 123‑4567</p>
+        <p><strong>Email:</strong> support@homenest.com</p>
+        <p><strong>Address:</strong> 123 Real Estate Ave, Suite 100, Metropolis</p>
+    </div>
+</section>
+
+<section id="testimonials">
+    <h2>What Our Clients Say</h2>
+    <p>Hear from families, first‑time buyers, and investors who found success with HomeNest</p>
+    <div class="carousel">
+        <div class="carousel-track">
+            <div class="testimonial-card">
+                <p>"HomeNest made our first home purchase smooth and stress‑free!"</p>
+                <div class="stars">★★★★★</div>
+                <p><strong>Laura G.</strong>, First‑time Buyer</p>
+            </div>
+            <div class="testimonial-card">
+                <p>"The agents are knowledgeable and truly care about finding the right fit."</p>
+                <div class="stars">★★★★★</div>
+                <p><strong>Michael R.</strong>, Investor</p>
+            </div>
+            <div class="testimonial-card">
+                <p>"I love the modern interface and the detailed property info."</p>
+                <div class="stars">★★★★☆</div>
+                <p><strong>Susan K.</strong>, Relocator</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2026 HomeNest. All rights reserved.</p>
+    <p><a href="#hero">Back to top</a></p>
+</footer>
+
+<script>
+/* Simple carousel functionality */
+const track = document.querySelector('#testimonials .carousel-track');
+let index = 0;
+function showSlide(i){
+    const slides = document.querySelectorAll('#testimonials .testimonial-card');
+    if(i >= slides.length) index = 0;
+    else if(i < 0) index = slides.length -1;
+    else index = i;
+    const offset = -index * 100;
+    track.style.transform = `translateX(${offset}%)`;
+}
+setInterval(()=>{ showSlide(index+1); }, 5000);
+</script>
+
+</body>
+</html>
